@@ -4,6 +4,8 @@
 //(26/08/2024)
 
 #include <stdio.h>
+#include <math.h>
+#include <string.h>
 
 void DecimalBinario(int n) {
     if (n < 0) {
@@ -85,9 +87,9 @@ void DecimalHexadecimal(int n) {
     while (n > 0) {
         resto = n % 16;
         if (resto < 10)
-            hexadecimal[i] = '0' + resto;
+            hexadecimal[i] = 48 + resto;
         else
-            hexadecimal[i] = 'A' + (resto - 10);
+            hexadecimal[i] = 55 + resto;
         printf("%d / 16 = %d, resto = %c\n", n, n / 16, hexadecimal[i]);
         n = n / 16;
         i++;
@@ -133,7 +135,7 @@ void DecimalBCD(int n) {
 
 void DecimalComplemento2(int n) {
     if (n < -32768 || n > 32767) {
-        printf("Número fora do intervalo de 16 bits com sinal (-32768 a 32767).\n");
+        printf("Número fora do intervalo de 16 bits com sinal.\n");
         return;
     }
 
@@ -154,8 +156,24 @@ void DecimalComplemento2(int n) {
     printf("\n");
 }
 
+void RealFloat(float num) {
+    unsigned int bits;
+    memcpy(&bits, &num, sizeof(bits));
+
+    int sinal = (bits >> 31) & 1;
+    int expoente = (bits >> 23) & 0xFF;
+    int fracao = bits & 0x7FFFFF;
+
+    printf("Número: %f\n", num);
+    printf("Sinal: %d\n", sinal);
+    printf("Expoente: %d (0x%X)\n", expoente - 127, expoente);
+    printf("Fração: 0x%X\n", fracao);
+}
+
 int main() {
     int opcao, num;
+    float fnum;
+    double dnum;
 
     printf("Calculadora Programador Didática\n");
     printf("1 - Converter base 10 para base 2\n");
@@ -163,7 +181,8 @@ int main() {
     printf("3 - Converter base 10 para base 16\n");
     printf("4 - Converter base 10 para Código BCD\n");
     printf("5 - Converter base 10 para complemento de 2 com 16 bits\n");
-
+    printf("6 - Converter número real para formato float\n");
+ 
     printf("Escolha uma opção: ");
     scanf("%d", &opcao);
 
@@ -192,6 +211,11 @@ int main() {
             printf("Digite o número em base 10 (com sinal): ");
             scanf("%d", &num);
             DecimalComplemento2(num);
+            break;
+        case 6:
+            printf("Digite o número real: ");
+            scanf("%f", &fnum);
+            RealParaFloat(fnum);
             break;
         default:
             printf("Opção inválida!\n");
