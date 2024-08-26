@@ -131,6 +131,29 @@ void DecimalBCD(int n) {
     printf("\n");
 }
 
+void DecimalComplemento2(int n) {
+    if (n < -32768 || n > 32767) {
+        printf("Número fora do intervalo de 16 bits com sinal (-32768 a 32767).\n");
+        return;
+    }
+
+    unsigned int complemento2;
+
+    if (n < 0) {
+        complemento2 = (~(-n) + 1) & 0xFFFF;
+    } else {
+        complemento2 = n & 0xFFFF;
+    }
+
+    printf("Passo a passo da conversão de %d para complemento de 2 com 16 bits:\n", n);
+    printf("Resultado: ");
+
+    for (int i = 15; i >= 0; i--) {
+        printf("%d", (complemento2 >> i) & 1);
+    }
+    printf("\n");
+}
+
 int main() {
     int opcao, num;
 
@@ -139,6 +162,7 @@ int main() {
     printf("2 - Converter base 10 para base 8\n");
     printf("3 - Converter base 10 para base 16\n");
     printf("4 - Converter base 10 para Código BCD\n");
+    printf("5 - Converter base 10 para complemento de 2 com 16 bits\n");
 
     printf("Escolha uma opção: ");
     scanf("%d", &opcao);
@@ -163,6 +187,11 @@ int main() {
             printf("Digite o número em base 10: ");
             scanf("%d", &num);
             DecimalBCD(num);
+            break;
+        case 5:
+            printf("Digite o número em base 10 (com sinal): ");
+            scanf("%d", &num);
+            DecimalComplemento2(num);
             break;
         default:
             printf("Opção inválida!\n");
