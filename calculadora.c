@@ -215,7 +215,7 @@ int main() {
         case 6:
             printf("Digite o número real: ");
             scanf("%f", &fnum);
-            RealParaFloat(fnum);
+            RealFloat(fnum);
             break;
         default:
             printf("Opção inválida!\n");
