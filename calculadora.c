@@ -100,6 +100,37 @@ void DecimalHexadecimal(int n) {
     printf("\n");
 }
 
+void DecimalBCD(int n) {
+    if (n < 0) {
+        printf("Número inválido. Apenas números não-negativos são suportados.\n");
+        return;
+    }
+
+    if (n == 0) {
+        printf("Código BCD de %d: 0000\n", n);
+        return;
+    }
+
+    int digitos[10];
+    int i = 0;
+
+    while (n > 0) {
+        digitos[i] = n % 10;
+        n = n / 10;
+        i++;
+    }
+
+    printf("Código BCD: ");
+    for (int j = i - 1; j >= 0; j--) {
+        int digito = digitos[j];
+        for (int k = 3; k >= 0; k--) {
+            printf("%d", (digito >> k) & 1);
+        }
+        printf(" ");
+    }
+    printf("\n");
+}
+
 int main() {
     int opcao, num;
 
@@ -107,6 +138,7 @@ int main() {
     printf("1 - Converter base 10 para base 2\n");
     printf("2 - Converter base 10 para base 8\n");
     printf("3 - Converter base 10 para base 16\n");
+    printf("4 - Converter base 10 para Código BCD\n");
 
     printf("Escolha uma opção: ");
     scanf("%d", &opcao);
@@ -126,6 +158,11 @@ int main() {
             printf("Digite o número em base 10: ");
             scanf("%d", &num);
             DecimalHexadecimal(num);
+            break;
+        case 4:
+            printf("Digite o número em base 10: ");
+            scanf("%d", &num);
+            DecimalBCD(num);
             break;
         default:
             printf("Opção inválida!\n");
