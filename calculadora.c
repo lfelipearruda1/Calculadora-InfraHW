@@ -156,7 +156,7 @@ void DecimalComplemento2(int n) {
     printf("\n");
 }
 
-void RealFloat(float num) {
+void RealParaFloat(float num) {
     unsigned int bits;
     memcpy(&bits, &num, sizeof(bits));
 
@@ -168,6 +168,20 @@ void RealFloat(float num) {
     printf("Sinal: %d\n", sinal);
     printf("Expoente: %d (0x%X)\n", expoente - 127, expoente);
     printf("Fração: 0x%X\n", fracao);
+}
+
+void RealParaDouble(double num) {
+    unsigned long long bits;
+    memcpy(&bits, &num, sizeof(bits));
+
+    int sinal = (bits >> 63) & 1;
+    int expoente = (bits >> 52) & 0x7FF;
+    unsigned long long fracao = bits & 0xFFFFFFFFFFFFF;
+
+    printf("Número: %lf\n", num);
+    printf("Sinal: %d\n", sinal);
+    printf("Expoente: %d (0x%X)\n", expoente - 1023, expoente);
+    printf("Fração: 0x%llX\n", fracao);
 }
 
 int main() {
@@ -182,7 +196,8 @@ int main() {
     printf("4 - Converter base 10 para Código BCD\n");
     printf("5 - Converter base 10 para complemento de 2 com 16 bits\n");
     printf("6 - Converter número real para formato float\n");
- 
+    printf("7 - Converter número real para formato double\n");
+
     printf("Escolha uma opção: ");
     scanf("%d", &opcao);
 
@@ -215,7 +230,12 @@ int main() {
         case 6:
             printf("Digite o número real: ");
             scanf("%f", &fnum);
-            RealFloat(fnum);
+            RealParaFloat(fnum);
+            break;
+        case 7:
+            printf("Digite o número real: ");
+            scanf("%lf", &dnum);
+            RealParaDouble(dnum);
             break;
         default:
             printf("Opção inválida!\n");
